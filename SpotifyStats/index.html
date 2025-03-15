@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Listening Stats</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h2>Spotify Listening Stats</h2>
+
+    <!-- Кастомная кнопка для загрузки файла -->
+    <label for="fileInput" id="fileLabel" class="custom-file-upload">📂 Upload JSON</label>
+    <input type="file" id="fileInput" accept=".json">
+
+    <p id="filePrompt">Select your .json above</p>
+
+    <div id="controls">
+        <label for="monthSelect">Month:</label>
+        <select id="monthSelect" onchange="populateDayOptions(); generateStats()"></select>
+
+        <label for="daySelect">Day:</label>
+        <select id="daySelect" onchange="generateStats()">
+            <option value="all">Whole month</option>
+        </select>
+
+        <button onclick="generateStats()">Show stats</button>
+        <button id="overallStatsButton" onclick="generateOverallStats()">Whole file stats</button>
+
+        <div id="stats">
+            <div id="statsHeader">
+                <p id="totalListeningTime"><strong>Total listening time:</strong> <span id="listeningTimeValue"></span></p>
+                <button id="toggleSearchButton" onclick="toggleSearch()">🔍</button>
+                <input type="text" id="searchInput" placeholder="Search track..." oninput="searchTrack()">
+            </div>
+            <ul id="statsList"></ul>
+        </div>
+    </div>
+
+    <!-- Кнопка "Как получить данные?" -->
+    <button id="helpButton" onclick="toggleHelpPanel()">❓ How to get your .json files?</button>
+
+    <!-- Всплывающее окно с инструкцией -->
+    <div id="helpPanel">
+        <h3>How to get your Spotify listening data?</h3>
+        <p>1️⃣ Go to <a href="https://www.spotify.com/account/privacy/" target="_blank">Spotify Privacy Settings</a></p>
+        <p>2️⃣ Request your listening history.</p>
+        <p>3️⃣ Wait for Spotify to generate the file.</p>
+        <p>4️⃣ Download the .zip, extract it to get the file and upload it here.</p>
+        <button onclick="toggleHelpPanel()">Close</button>
+    </div>
+
+    <!-- Сообщение о конфиденциальности -->
+    <p id="privacyNotice">Your files are processed locally on your device. Nothing is uploaded anywhere.</p>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

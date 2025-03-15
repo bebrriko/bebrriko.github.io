@@ -1,0 +1,241 @@
+/* Основные стили */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #121212; /* Темный фон */
+    color: #fff; /* Белый цвет текста */
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #1db954; /* Зеленый цвет из Spotify */
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+/* Контейнер для загрузки файла */
+#fileInput {
+    display: none;
+}
+
+/* Кастомная кнопка */
+.custom-file-upload {
+    background-color: #1db954;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #1ed760;
+}
+
+/* Кнопка "Whole file stats" */
+#overallStatsButton {
+    background-color: #1db954;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin: 20px 0;
+    transition: background-color 0.3s ease;
+}
+
+#overallStatsButton:hover {
+    background-color: #1ed760;
+}
+
+/* Дополнительный стиль для всех селектов */
+select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    width: 150px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #1db954;
+}
+
+/* Кнопка для генерации статистики */
+button {
+    background-color: #1db954;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1ed760;
+}
+
+/* Статистика */
+#stats {
+    margin-top: 40px;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #282828;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    position: relative;
+}
+
+#stats p {
+    font-size: 1.2rem;
+    color: #b3b3b3;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+li {
+    font-size: 1rem;
+    color: #b3b3b3;
+    padding: 8px 0;
+    border-bottom: 1px solid #444;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+li:hover {
+    background-color: #333;
+}
+
+#statsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 750px;
+    margin: auto;
+}
+
+/* Кнопка лупы */
+#toggleSearchButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+/* Поле поиска (по умолчанию скрыто) */
+#searchInput {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+    width: 0px;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+}
+
+/* Когда поиск активен */
+.search-active #searchInput {
+    width: 150px;
+    opacity: 1;
+}
+
+/* Контейнер сдвигается, но не сильно */
+.search-active #totalListeningTime {
+    margin-right: 20px;
+}
+
+
+/* Контейнер поиска */
+#searchContainer {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    background: #222;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+
+/* Сообщение о конфиденциальности */
+#privacyNotice {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    margin-top: 10px;
+}
+
+/* Кнопка помощи */
+#helpButton {
+    margin-top: 10px;
+    background-color: #555;
+}
+
+/* Всплывающее окно с инструкцией */
+#helpPanel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: #282828;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    z-index: 1000;
+}
+
+#helpPanel a {
+    color: #1db954;
+    text-decoration: none;
+}
+
+#helpPanel button {
+    margin-top: 10px;
+    background-color: #444;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#controls {
+    display: none;
+}
+
+#helpPanel {
+    width: 400px;
+}
