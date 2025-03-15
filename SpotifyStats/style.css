@@ -10,7 +10,7 @@ body {
 
 h2 {
     font-size: 2rem;
-    color: #1db954; /* Зеленый цвет из Spotify */
+    color: #1ed760; /* Зеленый цвет из Spotify */
     margin-top: 30px;
     font-weight: 600;
 }
@@ -239,3 +239,4 @@ li:hover {
 #helpPanel {
     width: 400px;
 }
+

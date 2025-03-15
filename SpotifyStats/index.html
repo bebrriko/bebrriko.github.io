@@ -9,6 +9,12 @@
     <meta name="darkreader-lock">
 </head>
 
+<style>
+    a:link, a:visited {
+        color: #1ed760;
+    }
+</style>
+
 <body>
 
     <h2>Spotify Listening Stats</h2>
@@ -33,7 +39,8 @@
 
         <div id="stats">
             <div id="statsHeader">
-                <p id="totalListeningTime"><strong>Total listening time:</strong> <span id="listeningTimeValue"></span></p>
+                <p id="totalListeningTime"><strong>Total listening time:</strong> <span id="listeningTimeValue"></span>
+                </p>
                 <button id="toggleSearchButton" onclick="toggleSearch()">🔍</button>
                 <input type="text" id="searchInput" placeholder="Search track..." oninput="searchTrack()">
             </div>
@@ -56,6 +63,8 @@
 
     <!-- Сообщение о конфиденциальности -->
     <p id="privacyNotice">Your files are processed locally on your device. Nothing is uploaded anywhere.</p>
+    <p id="sourceCode"><a href="https://github.com/bebrriko/bebrriko.github.io/tree/main/SpotifyStats" target="_blank">
+            Source code.</a></p>
 
     <script src="script.js"></script>
 
