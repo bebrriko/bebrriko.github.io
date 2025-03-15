@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "5kaSans";
+    src: url("5kaSansDesign-Black.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: "5kaSans", sans-serif;
+    background-color: #b4b4b4; /* Темный фон */
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
