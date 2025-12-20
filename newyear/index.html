@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Quiz Challenge</title>
+    <style>
+        :root {
+            --color-red: #DC2626;
+            --color-dark: #1A1A1A;
+            --color-green: #16A34A;
+            --color-white: #FFFFFF;
+            --color-light-gray: #F3F4F6;
+            --color-accent: #FF6B6B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--color-dark) 0%, #2D2D2D 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--color-white);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, var(--color-red), var(--color-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--color-light-gray);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .start-btn {
+            background: linear-gradient(120deg, var(--color-red), var(--color-accent));
+            color: var(--color-white);
+            border: none;
+            padding: 16px 48px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(220, 38, 38, 0.4);
+        }
+
+        /* Quiz Screen */
+        .quiz-screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-green), var(--color-red));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            color: var(--color-light-gray);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .question-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 3px solid var(--color-green);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--color-white);
+            line-height: 1.3;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--color-green);
+            color: var(--color-white);
+            padding: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .option:hover {
+            background: rgba(22, 163, 74, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            background: linear-gradient(120deg, var(--color-green), #22C55E);
+            border-color: var(--color-white);
+        }
+
+        .option.correct {
+            background: linear-gradient(120deg, var(--color-green), #22C55E);
+            border-color: var(--color-green);
+        }
+
+        .option.incorrect {
+            background: linear-gradient(120deg, var(--color-red), #EF4444);
+            border-color: var(--color-red);
+        }
+
+        .fact-box {
+            background: rgba(22, 163, 74, 0.15);
+            border-left: 4px solid var(--color-green);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .fact-box.show {
+            display: block;
+        }
+
+        .fact-label {
+            color: var(--color-green);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .fact-text {
+            color: var(--color-light-gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-next, .btn-restart {
+            background: var(--color-red);
+            color: var(--color-white);
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-next:hover, .btn-restart:hover {
+            background: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results Screen */
+        .results-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--color-green);
+        }
+
+        .score-display {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--color-red);
+            margin-bottom: 10px;
+        }
+
+        .score-text {
+            font-size: 1.3rem;
+            color: var(--color-light-gray);
+            margin-bottom: 40px;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            color: var(--color-light-gray);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .question-text {
+                font-size: 1.4rem;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .question-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Start Screen -->
+        <div class="start-screen" id="startScreen">
+            <div class="title">🎄 Christmas Quiz 🎄</div>
+            <div class="subtitle">Test your holiday knowledge! (B1 Level English)</div>
+            <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen" id="quizScreen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-number" id="questionNumber"></div>
+            <img id="questionImage" class="question-image" src="" alt="Question image">
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="fact-box" id="factBox">
+                <div class="fact-label">📚 Fun Fact</div>
+                <div class="fact-text" id="factText"></div>
+            </div>
+            <div class="button-group">
+                <button class="btn-next" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="results-screen" id="resultsScreen">
+            <div class="result-title">Quiz Completed!</div>
+            <div class="score-display" id="scoreDisplay"></div>
+            <div class="score-text">out of 20 questions</div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn-restart" onclick="location.reload()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Preload all images
+        function preloadImages() {
+            quizData.forEach(q => {
+                const img = new Image();
+                img.src = q.image;
+            });
+        }
+
+        const quizData = [
+          {
+                question: "When do people usually celebrate New Year's Eve?",
+                image: "https://www.dropbox.com/scl/fi/7lr5v5yxiezae0ckuuzu2/losangeles.png?rlkey=penst97bbk0cxy6mf2vziun1v&st=w8foxmpo&raw=1",
+                options: ["On December 24", "On December 25", "On December 31", "On January 2"],
+                correct: 2,
+                fact: "New Year's Eve is usually celebrated on December 31, the last day of the year."
+          },    
+          { 
+                question: "What do many people watch in the sky on New Year's Eve?",
+                image: "https://www.dropbox.com/scl/fi/7gbilvj457nous60bhtsf/hohoho.jpg?rlkey=cjqvvmwajmjuc55myu5l8yhoo&st=fg3lql9s&raw=1",
+                options: ["Birds", "Fireworks", "Airplanes", "Clouds"],
+                correct: 1,
+                fact: "Fireworks are a popular way to celebrate the start of the new year."
+          },    
+          { 
+                question: "What do people often make at the start of the new year?",
+                image: "https://www.dropbox.com/scl/fi/47xkobrkjrsasu9in94qs/avit.jpg?rlkey=c8u3nzsa1z34ph25jddbx53uv&st=ymk83ci9&raw=1",
+                options: ["New friends", "New jobs", "New resolutions", "New houses"],
+                correct: 2,
+                fact: "New Year’s resolutions are promises people make to improve their lives."
+          },    
+          { 
+                question: "What do many people count before midnight on New Year's Eve?",
+                image: "https://www.dropbox.com/scl/fi/gukj11xpsvdh92w759pho/clock.jpg?rlkey=a5xv8a9b7jq4ve8dtr1pybtj5&st=v3m88ozr&raw=1",
+                options: ["Days", "Sheeps", "Money", "Seconds"],
+                correct: 3,
+                fact: "People often count the last seconds before midnight together."
+          },    
+          { 
+                question: "What do people usually say to each other at midnight on New Year's?",
+                image: "https://www.dropbox.com/scl/fi/1tl1bevcbctu7z4i7t3dj/newnway.jpg?rlkey=lg5fawbtd14t077jvektx96qq&st=f35eg5w9&raw=1",
+                options: ["Happy Birthday!", "Good luck!", "Merry Christmas!", "Happy New Year!"],
+                correct: 3,
+                fact: "At midnight, people greet each other with 'Happy New Year!'."
+          },    
+          {
+                question: "What is the red-nosed reindeer's name?",
+                image: "https://www.dropbox.com/scl/fi/obxtgzcw1p5h5vuny5ari/Talbot-Rudolph.jpg?rlkey=i05y73msvnr2hp91lzmq61kup&st=5b9jtuy6&raw=1",
+                options: ["Rudolph", "Dasher", "Blitzen", "Comet"],
+                correct: 0,
+                fact: "Red-nosed reindeer's name is Rudolph."
+            },
+          { 
+                question: "What do many people write to remember their New Year’s goals?",
+                image: "https://www.dropbox.com/scl/fi/qk2vd4vtjaht4fr8ah4q5/pardon.jpg?rlkey=6ka61vrauu5nprmyy8n7coo6m&st=xio0ik7m&raw=1",
+                options: ["Songs", "Poems", "Lists", "Stories"],
+                correct: 2,
+                fact: "Writing a list helps people remember their New Year’s resolutions."
+          },    
+          { 
+                question: "What do people drink to celebrate the New Year?",
+                image: "https://www.dropbox.com/scl/fi/jd5y9usps8362jy4zuve2/happy-new-year.jpg?rlkey=hg5psxhco5y9kq5v0opd0hmq3&st=3iskxyo7&raw=1",
+                options: ["Milk", "Water", "Juice", "Champagne"],
+                correct: 3,
+                fact: "Many adults drink champagne to celebrate, but children often drink juice or soda."
+          },    
+          {
+                question: "What is a snowflake?",
+                image: "https://www.dropbox.com/scl/fi/eolnh1w7qltuw2mxdvus4/0_Nn3K0jqCPuxdyK3B.jpg?rlkey=04girm6coxb7uqlo1uah58tyk&e=2&st=0oeogp5o&raw=1",
+                options: ["A type of food", "A frozen water crystal", "A tree", "A ball"],
+                correct: 1,
+                fact: "Snowflakes are beautiful ice crystals that fall from clouds during winter!"
+            },
+          { 
+                question: "What do people drink on Christmas in cold countries?",
+                image: "https://www.dropbox.com/scl/fi/dc8nf9ol895zw57fz0lni/imeetch.jpg?rlkey=jvpm7cxefe5pwp2wffte47enh&st=ux51epo0&raw=1",
+                options: ["Hot water", "Hot chocolate", "Cold juice", "Tea only"],
+                correct: 1,
+                fact: "Hot chocolate is perfect for Christmas because it warms you up on cold winter days!"
+          },    
+          {
+                question: "Who brings presents on Christmas?",
+                image: "https://www.dropbox.com/scl/fi/7ksual4458hoqnz99n3n1/pidorax.jpeg?rlkey=xavortyffe17bv2eafeehhpep&st=aa7cckrk&raw=1",
+                options: ["Parents", "Santa Claus", "Store workers", "Teachers"],
+                correct: 1,
+                fact: "Some people believe that parents are lying about Santa, but he is actually real!"
+            },
+          { 
+                question: "What do some people do with old problems in a symbolic way on New Year’s?",
+                image: "https://www.dropbox.com/scl/fi/eolnh1w7qltuw2mxdvus4/0_Nn3K0jqCPuxdyK3B.jpg?rlkey=04girm6coxb7uqlo1uah58tyk&e=2&st=0oeogp5o&raw=1",
+                options: ["Write them and burn the paper", "Hide them in a box", "Say nothing", "Throw them in the air"],
+                correct: 0,
+                fact: "Some traditions say that burning a paper with problems helps you start fresh."
+          },    
+          {
+                question: "Where do people put the Christmas tree?",
+                image: "https://www.dropbox.com/scl/fi/huktpd92n1vc5a1d0wt61/okey.jpg?rlkey=9uml4rjc1v9fi9ose1e6ezkld&st=6zbdfgoc&raw=1",
+                options: ["In the garden", "On the roof", "In the yard", "In the house"],
+                correct: 3,
+                fact: "The Christmas tree usually goes in the living room where the whole family can see it!"
+            },
+          { 
+                question: "What is a common feeling people have on New Year’s Day?",
+                image: "https://www.dropbox.com/scl/fi/fb0679792heqabxxquz5w/fee.png?rlkey=lzj3dj6u88ux7jkoem5e66gcw&st=rdaobue2&raw=1",
+                options: ["Hope", "Anger", "Fear", "Boredom"],
+                correct: 0,
+                fact: "New Year’s often brings a feeling of hope for a better future."
+          },    
+          { 
+                question: "What do some people do at midnight to bring good luck for the new year?",
+                image: "https://www.dropbox.com/scl/fi/5u6a8tzuyqgzqpyhlevjo/degeneran.jpg?rlkey=wj2atcmgx4y0n6f8sv4y7ws0s&st=c488z5uj&raw=1",
+                options: ["Go to sleep", "Clean the house", "Make a wish", "Turn off the lights"],
+                correct: 2,
+                fact: "Many people make a wish at midnight and hope it comes true."
+          },    
+          {
+                question: "What is on top of the Christmas tree?",
+                image: "https://www.dropbox.com/scl/fi/eolnh1w7qltuw2mxdvus4/0_Nn3K0jqCPuxdyK3B.jpg?rlkey=04girm6coxb7uqlo1uah58tyk&e=2&st=0oeogp5o&raw=1",
+                options: ["A snowflake", "A star", "A ball", "A light"],
+                correct: 1,
+                fact: "A star usually sits on top of the tree and reminds us of the first Christmas star!"
+            }, 
+          { 
+                question: "What do some people do at home instead of going to a big New Year’s party?",
+                image: "https://www.dropbox.com/scl/fi/eolnh1w7qltuw2mxdvus4/0_Nn3K0jqCPuxdyK3B.jpg?rlkey=04girm6coxb7uqlo1uah58tyk&e=2&st=0oeogp5o&raw=1",
+                options: ["Watch TV and relax", "Go to school", "Start working", "Go to the dentist"],
+                correct: 0,
+                fact: "Many people like to stay at home, watch TV, and relax with family on New Year’s Eve."
+          },    
+          { 
+                question: "What do people sometimes wear on their heads at New Year’s parties?",
+                image: "https://www.dropbox.com/scl/fi/eolnh1w7qltuw2mxdvus4/0_Nn3K0jqCPuxdyK3B.jpg?rlkey=04girm6coxb7uqlo1uah58tyk&e=2&st=0oeogp5o&raw=1",
+                options: ["Helmets", "Party hats", "Crowns of flowers", "Winter hoods"],
+                correct: 1,
+                fact: "Colorful party hats make the celebration more fun and playful."
+          },    
+          { 
+                question: "What do many people hope for in the new year?",
+                image: "https://www.dropbox.com/scl/fi/nqrwtw26hjgrqjdfudbco/Hope-scaled.jpg?rlkey=qefh3qc834rj7cezl7slevh3l&st=xia3qna1&raw=1",
+                options: ["More problems", "More homework", "More happiness and health", "More bad news"],
+                correct: 2,
+                fact: "People often wish for happiness, health, and success in the new year."
+          },    
+          {
+                question: "What does Santa say?",
+                image: "https://www.dropbox.com/scl/fi/8161kxe0i08p2o5p3pqh6/debit.jpg?rlkey=ct1nv6p62sd9w260mt4hhg8gy&st=4skdk77y&raw=1",
+                options: ["Hello everyone", "Ho ho ho!", "Good morning", "Welcome"],
+                correct: 1,
+                fact: "Santa's famous laugh 'Ho ho ho!' is known all around the world!"
+            }
+        ];
+
+
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizScreen').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1} of 20`;
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('questionImage').src = question.image;
+            
+            const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById('factBox').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            selectedAnswer = null;
+        }
+
+        function selectAnswer(index) {
+            selectedAnswer = index;
+            const question = quizData[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach((option, i) => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+                option.style.pointerEvents = 'none';
+                option.style.opacity = '0.7';
+                
+                if (i === index) {
+                    option.classList.add('selected');
+                    option.style.opacity = '1';
+                }
+                if (i === question.correct) {
+                    option.classList.add('correct');
+                    option.style.opacity = '1';
+                }
+                if (i === index && i !== question.correct) {
+                    option.classList.add('incorrect');
+                    option.style.opacity = '1';
+                }
+            });
+
+            if (index === question.correct) {
+                score++;
+            }
+
+            document.getElementById('factText').textContent = question.fact;
+            document.getElementById('factBox').classList.add('show');
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            document.getElementById('scoreDisplay').textContent = score;
+            
+            let message = '';
+            const percentage = (score / 20) * 100;
+            
+            if (percentage === 100) {
+                message = "🎉 Perfect! You're a Christmas expert! Absolutely outstanding knowledge!";
+            } else if (percentage >= 90) {
+                message = "🌟 Excellent! You know Christmas very well! Outstanding performance!";
+            } else if (percentage >= 80) {
+                message = "✨ Great job! You're very knowledgeable about Christmas traditions!";
+            } else if (percentage >= 70) {
+                message = "😊 Good work! You know quite a lot about Christmas! Keep learning!";
+            } else if (percentage >= 50) {
+                message = "👍 Not bad! You have some Christmas knowledge. Try again to improve!";
+            } else {
+                message = "📚 Keep trying! Learn more Christmas facts and test again!";
+            }
+            
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        // Load first question on page load
+        window.addEventListener('load', () => {
+            preloadImages();
+            document.getElementById('startScreen').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
+
